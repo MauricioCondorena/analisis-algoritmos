@@ -64,12 +64,10 @@ function drawEdge(edge) {
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    // Peso
     ctx.fillStyle = "#00E0FF";
     ctx.font = "16px Arial";
     ctx.fillText(edge.weight, centerX, centerY - loopRadius - 10);
 
-    // Flecha
     if (edge.directed) {
       const arrowX = centerX + loopRadius * Math.cos(endAngle);
       const arrowY = centerY + loopRadius * Math.sin(endAngle);
@@ -80,11 +78,11 @@ function drawEdge(edge) {
       ctx.moveTo(arrowX, arrowY);
       ctx.lineTo(
         arrowX - 15 * Math.cos(angle - Math.PI / 6),
-        arrowY - 15 * Math.sin(angle - Math.PI / 6),
+        arrowY - 15 * Math.sin(angle - Math.PI / 6)
       );
       ctx.lineTo(
         arrowX - 15 * Math.cos(angle + Math.PI / 6),
-        arrowY - 15 * Math.sin(angle + Math.PI / 6),
+        arrowY - 15 * Math.sin(angle + Math.PI / 6)
       );
       ctx.closePath();
       ctx.fill();
@@ -97,9 +95,8 @@ function drawEdge(edge) {
   const dy = edge.to.y - edge.from.y;
   const angle = Math.atan2(dy, dx);
 
-  // Detectar arista inversa (A→B y B→A)
   let twinEdge = edges.find(
-    (e) => e !== edge && e.from === edge.to && e.to === edge.from,
+    (e) => e !== edge && e.from === edge.to && e.to === edge.from
   );
 
   const startOffsetX = Math.cos(angle) * edge.from.radius;
@@ -114,38 +111,26 @@ function drawEdge(edge) {
   let endX = edge.to.x - endOffsetX;
   let endY = edge.to.y - endOffsetY;
 
-  // Si existe arista inversa → separarlas paralelamente
   if (twinEdge) {
     const separation = 15;
-
     const perpX = -Math.sin(angle) * separation;
     const perpY = Math.cos(angle) * separation;
 
-    // Desplazar dependiendo de la dirección real
-    if (edge.from === twinEdge.to && edge.to === twinEdge.from) {
-      startX += perpX;
-      startY += perpY;
-      endX += perpX;
-      endY += perpY;
-    } else {
-      startX -= perpX;
-      startY -= perpY;
-      endX -= perpX;
-      endY -= perpY;
-    }
+    startX += perpX;
+    startY += perpY;
+    endX += perpX;
+    endY += perpY;
   }
 
   ctx.beginPath();
   ctx.moveTo(startX, startY);
   ctx.lineTo(endX, endY);
-  ctx.strokeStyle = "#4DA3FF"; // ← NUEVO COLOR
-  ctx.lineWidth = 2; // ← Grosor
+  ctx.strokeStyle = "#4DA3FF";
+  ctx.lineWidth = 2;
   ctx.stroke();
 
   if (edge.directed) {
     const headLength = 20;
-
-    // Punto exacto en el borde del nodo destino
     const tipX = endX;
     const tipY = endY;
 
@@ -153,11 +138,11 @@ function drawEdge(edge) {
     ctx.moveTo(tipX, tipY);
     ctx.lineTo(
       tipX - headLength * Math.cos(angle - Math.PI / 6),
-      tipY - headLength * Math.sin(angle - Math.PI / 6),
+      tipY - headLength * Math.sin(angle - Math.PI / 6)
     );
     ctx.lineTo(
       tipX - headLength * Math.cos(angle + Math.PI / 6),
-      tipY - headLength * Math.sin(angle + Math.PI / 6),
+      tipY - headLength * Math.sin(angle + Math.PI / 6)
     );
     ctx.closePath();
     ctx.fillStyle = "#66CCFF";
@@ -177,17 +162,16 @@ function redraw() {
   vertices.forEach(drawVertex);
 }
 
-/* ------------------ AJUSTAR TAMAÑO ------------------ */
-
+/* ------------------ RESIZE CORRECTO ------------------ */
 function resizeCanvas() {
-  canvas.width = window.innerWidth * 0.9;
-  canvas.height = window.innerHeight * 0.75;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width;
+  canvas.height = rect.height;
   redraw();
 }
 
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
-
 /* ------------------ EVENTOS ------------------ */
 
 // Crear vértice
@@ -199,9 +183,7 @@ canvas.addEventListener("dblclick", function (e) {
   for (let vertex of vertices) {
     let dx = x - vertex.x;
     let dy = y - vertex.y;
-    if (Math.sqrt(dx * dx + dy * dy) <= vertex.radius) {
-      return;
-    }
+    if (Math.sqrt(dx * dx + dy * dy) <= vertex.radius) return;
   }
 
   vertices.push(new Vertex(x, y));
@@ -237,7 +219,6 @@ canvas.addEventListener("click", function (e) {
         selectedVertex = null;
         redraw();
       }
-
       break;
     }
   }
@@ -271,4 +252,65 @@ canvas.addEventListener("mousemove", function (e) {
 
 canvas.addEventListener("mouseup", function () {
   draggingVertex = null;
+});
+
+/* ================= MATRIZ ================= */
+
+function generarMatrizAdyacencia() {
+  const n = vertices.length;
+  let matriz = Array.from({ length: n }, () => Array(n).fill(0));
+
+  edges.forEach((edge) => {
+    const i = edge.from.id;
+    const j = edge.to.id;
+    const peso = Number(edge.weight) || 1;
+
+    matriz[i][j] = peso;
+    if (!edge.directed) matriz[j][i] = peso;
+  });
+
+  return matriz;
+}
+
+function mostrarMatriz() {
+  const container = document.getElementById("matrizContainer");
+
+if (vertices.length === 0) {
+  container.innerHTML =
+    "<p style='opacity:0.6'>No hay vértices aún</p>";
+  return;
+}
+
+  const matriz = generarMatrizAdyacencia();
+
+  let html = "<table><tr><th></th>";
+  vertices.forEach((v) => (html += `<th>${v.id}</th>`));
+  html += "</tr>";
+
+  matriz.forEach((fila, i) => {
+    html += `<tr><th>${i}</th>`;
+    fila.forEach((valor) => (html += `<td>${valor}</td>`));
+    html += "</tr>";
+  });
+
+  html += "</table>";
+  container.innerHTML = html;
+}
+
+document.getElementById("btnMatriz").addEventListener("click", mostrarMatriz);
+
+/* ================= HELP ================= */
+
+const modalHelp = document.getElementById("modalHelp");
+const btnHelp = document.getElementById("btnHelp");
+const cerrarHelp = document.getElementById("cerrarHelp");
+
+btnHelp.addEventListener("click", () =>
+  modalHelp.classList.remove("oculto")
+);
+cerrarHelp.addEventListener("click", () =>
+  modalHelp.classList.add("oculto")
+);
+window.addEventListener("click", (e) => {
+  if (e.target === modalHelp) modalHelp.classList.add("oculto");
 });

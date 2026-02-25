@@ -1,19 +1,143 @@
+/* ================== BASE ================== */
 body {
   margin: 0;
   background-color: #0f172a;
   font-family: "Segoe UI", sans-serif;
   color: #f1f5f9;
   text-align: center;
+  overflow-x: hidden;
 }
 
-h1 {
-  padding: 30px 0;
+/* ================== TITULO ================== */
+h2 {
+  padding: 20px 0 10px 0;
   color: #3b82f6;
 }
 
-canvas {
-  background-color: #111827;
+/* ================== BOTONES ================== */
+.panel-botones {
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 18px;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+button:hover {
+  background: #2563eb;
+  box-shadow: 0 0 12px #3b82f6;
+}
+
+/* ================== LAYOUT PRINCIPAL ================== */
+.layout-grafos {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 2vw;
+  padding: 2vh 3vw;
+  width: 100%;
+  height: calc(100vh - 160px); /* 🔥 llena pantalla */
+  box-sizing: border-box;
+}
+
+/* ================== CAJAS FLEXIBLES ================== */
+.grafo-box,
+.matriz-box {
+  flex: 1;
+  height: 100%;
+  min-width: 320px;
+  background: #111827;
   border: 2px solid #3b82f6;
-  border-radius: 10px;
-  box-shadow: 0 0 20px #3b82f6;
+  border-radius: 14px;
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+/* ================== CANVAS ================== */
+.grafo-box canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* ================== MATRIZ ================== */
+.matriz-box {
+  overflow: auto;
+}
+
+.matriz-box table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.matriz-box th,
+.matriz-box td {
+  border: 1px solid #3b82f6;
+  padding: 6px 10px;
+  text-align: center;
+}
+
+.matriz-box th {
+  background: rgba(59, 130, 246, 0.15);
+}
+
+/* ================== MODAL HELP ================== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+}
+
+.modal-contenido {
+  background: #111827;
+  color: #f1f5f9;
+  width: 320px;
+  margin: 120px auto;
+  padding: 25px;
+  border-radius: 14px;
+  position: relative;
+  box-shadow: 0 0 30px #3b82f6;
+  text-align: left;
+}
+
+#cerrarHelp {
+  position: absolute;
+  right: 12px;
+  top: 6px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.oculto {
+  display: none;
+}
+
+/* ================== RESPONSIVE PRO ================== */
+@media (max-width: 900px) {
+  .layout-grafos {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .grafo-box,
+  .matriz-box {
+    height: 420px;
+  }
 }

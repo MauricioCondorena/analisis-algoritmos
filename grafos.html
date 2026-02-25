@@ -9,7 +9,34 @@
   <body>
     <h2>Grafos Interactivo</h2>
 
-    <canvas id="canvasGrafo"></canvas>
+    <div class="panel-botones">
+      <button id="btnMatriz">Matriz de Adyacencia</button>
+      <button id="btnHelp">Help</button>
+    </div>
+
+    <!-- 🔥 LAYOUT CORRECTO -->
+    <div class="layout-grafos">
+      <div class="grafo-box">
+        <canvas id="canvasGrafo"></canvas>
+      </div>
+
+      <div id="matrizContainer" class="matriz-box">
+        <p style="opacity:0.6">La matriz adyacente aparecerá aquí</p>
+      </div>
+    </div>
+
+    <!-- MODAL HELP -->
+    <div id="modalHelp" class="modal oculto">
+      <div class="modal-contenido">
+        <span id="cerrarHelp">&times;</span>
+        <h3>¿Qué estamos haciendo?</h3>
+        <p>
+          Este módulo permite construir grafos interactivos agregando vértices
+          y aristas. La matriz de adyacencia muestra en forma tabular las
+          conexiones entre los vértices y sus pesos y a la vez sacar su matriz adyacente.
+        </p>
+      </div>
+    </div>
 
     <script src="js/grafos.js"></script>
   </body>
