@@ -78,11 +78,11 @@ function drawEdge(edge) {
       ctx.moveTo(arrowX, arrowY);
       ctx.lineTo(
         arrowX - 15 * Math.cos(angle - Math.PI / 6),
-        arrowY - 15 * Math.sin(angle - Math.PI / 6)
+        arrowY - 15 * Math.sin(angle - Math.PI / 6),
       );
       ctx.lineTo(
         arrowX - 15 * Math.cos(angle + Math.PI / 6),
-        arrowY - 15 * Math.sin(angle + Math.PI / 6)
+        arrowY - 15 * Math.sin(angle + Math.PI / 6),
       );
       ctx.closePath();
       ctx.fill();
@@ -96,7 +96,7 @@ function drawEdge(edge) {
   const angle = Math.atan2(dy, dx);
 
   let twinEdge = edges.find(
-    (e) => e !== edge && e.from === edge.to && e.to === edge.from
+    (e) => e !== edge && e.from === edge.to && e.to === edge.from,
   );
 
   const startOffsetX = Math.cos(angle) * edge.from.radius;
@@ -138,11 +138,11 @@ function drawEdge(edge) {
     ctx.moveTo(tipX, tipY);
     ctx.lineTo(
       tipX - headLength * Math.cos(angle - Math.PI / 6),
-      tipY - headLength * Math.sin(angle - Math.PI / 6)
+      tipY - headLength * Math.sin(angle - Math.PI / 6),
     );
     ctx.lineTo(
       tipX - headLength * Math.cos(angle + Math.PI / 6),
-      tipY - headLength * Math.sin(angle + Math.PI / 6)
+      tipY - headLength * Math.sin(angle + Math.PI / 6),
     );
     ctx.closePath();
     ctx.fillStyle = "#66CCFF";
@@ -275,11 +275,10 @@ function generarMatrizAdyacencia() {
 function mostrarMatriz() {
   const container = document.getElementById("matrizContainer");
 
-if (vertices.length === 0) {
-  container.innerHTML =
-    "<p style='opacity:0.6'>No hay vértices aún</p>";
-  return;
-}
+  if (vertices.length === 0) {
+    container.innerHTML = "<p style='opacity:0.6'>No hay vértices aún</p>";
+    return;
+  }
 
   const matriz = generarMatrizAdyacencia();
 
@@ -305,12 +304,28 @@ const modalHelp = document.getElementById("modalHelp");
 const btnHelp = document.getElementById("btnHelp");
 const cerrarHelp = document.getElementById("cerrarHelp");
 
-btnHelp.addEventListener("click", () =>
-  modalHelp.classList.remove("oculto")
-);
-cerrarHelp.addEventListener("click", () =>
-  modalHelp.classList.add("oculto")
-);
+btnHelp.addEventListener("click", () => modalHelp.classList.remove("oculto"));
+cerrarHelp.addEventListener("click", () => modalHelp.classList.add("oculto"));
 window.addEventListener("click", (e) => {
   if (e.target === modalHelp) modalHelp.classList.add("oculto");
 });
+/* ================= LIMPIAR GRAFO ================= */
+
+function limpiarGrafo() {
+  // Vaciar estructuras
+  vertices = [];
+  edges = [];
+  selectedVertex = null;
+  draggingVertex = null;
+  vertexCounter = 0;
+
+  // Limpiar canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Limpiar matriz
+  const container = document.getElementById("matrizContainer");
+  container.innerHTML = "<p style='opacity:0.6'>La matriz aparecerá aquí</p>";
+}
+
+// Evento botón
+document.getElementById("btnLimpiar").addEventListener("click", limpiarGrafo);
