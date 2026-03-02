@@ -13,13 +13,28 @@
       <button id="btnMatriz">Matriz de Adyacencia</button>
       <button id="btnLimpiar">Limpiar</button>
       <button id="btnHelp">Help</button>
+
+      <!-- nombre archivo -->
+      <input
+        type="text"
+        id="nombreArchivo"
+        placeholder="nombre_archivo.json"
+        style="padding: 8px; border-radius: 6px; border: none; margin-left: 10px;"
+      />
+
+      <button id="btnExportar">Exportar</button>
+      <button id="btnImportar">Importar</button>
+
+      <input type="file" id="inputImportar" accept=".json" style="display:none" />
     </div>
 
-    <!-- 🔥 LAYOUT CORRECTO -->
     <div class="layout-grafos">
       <div class="grafo-box">
-        <canvas id="canvasGrafo"></canvas>
-      </div>
+      <canvas id="canvasGrafo"></canvas>
+      <p id="textoGrafoVacio" class="placeholder-grafo">
+      Doble click para crear vértices - click en cada vertice para dirigirla
+      </p>
+    </div>
 
       <div id="matrizContainer" class="matriz-box">
         <p style="opacity: 0.6">La matriz adyacente aparecerá aquí</p>
@@ -33,9 +48,8 @@
         <h3>¿Qué estamos haciendo?</h3>
         <p>
           Este módulo permite construir grafos interactivos agregando vértices y
-          aristas. La matriz de adyacencia muestra en forma tabular las
-          conexiones entre los vértices y sus pesos y a la vez sacar su matriz
-          adyacente.
+          aristas, La matriz de adyacencia muestra en forma tabular las
+          conexiones entre los vértices y sus pesos.
         </p>
       </div>
     </div>

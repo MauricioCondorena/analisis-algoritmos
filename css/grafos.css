@@ -141,3 +141,17 @@ button:hover {
     height: 420px;
   }
 }
+
+.placeholder-grafo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.45;
+  pointer-events: none;
+  font-size: 18px;
+}
+
+.grafo-box {
+  position: relative; /* 🔥 necesario */
+}

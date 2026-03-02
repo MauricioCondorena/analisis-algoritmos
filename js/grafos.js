@@ -12,8 +12,9 @@ let draggingVertex = null;
 /* ------------------ CLASES ------------------ */
 
 class Vertex {
-  constructor(x, y) {
+  constructor(x, y, label = null) {
     this.id = vertexCounter++;
+    this.label = label || "V" + this.id;
     this.x = x;
     this.y = y;
     this.radius = 30;
@@ -43,7 +44,7 @@ function drawVertex(vertex) {
   ctx.font = "16px Arial";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.fillText(vertex.id, vertex.x, vertex.y);
+  ctx.fillText(vertex.label, vertex.x, vertex.y);
 }
 
 function drawEdge(edge) {
@@ -71,18 +72,17 @@ function drawEdge(edge) {
     if (edge.directed) {
       const arrowX = centerX + loopRadius * Math.cos(endAngle);
       const arrowY = centerY + loopRadius * Math.sin(endAngle);
-
       const angle = endAngle;
 
       ctx.beginPath();
       ctx.moveTo(arrowX, arrowY);
       ctx.lineTo(
         arrowX - 15 * Math.cos(angle - Math.PI / 6),
-        arrowY - 15 * Math.sin(angle - Math.PI / 6),
+        arrowY - 15 * Math.sin(angle - Math.PI / 6)
       );
       ctx.lineTo(
         arrowX - 15 * Math.cos(angle + Math.PI / 6),
-        arrowY - 15 * Math.sin(angle + Math.PI / 6),
+        arrowY - 15 * Math.sin(angle + Math.PI / 6)
       );
       ctx.closePath();
       ctx.fill();
@@ -96,7 +96,7 @@ function drawEdge(edge) {
   const angle = Math.atan2(dy, dx);
 
   let twinEdge = edges.find(
-    (e) => e !== edge && e.from === edge.to && e.to === edge.from,
+    (e) => e !== edge && e.from === edge.to && e.to === edge.from
   );
 
   const startOffsetX = Math.cos(angle) * edge.from.radius;
@@ -138,11 +138,11 @@ function drawEdge(edge) {
     ctx.moveTo(tipX, tipY);
     ctx.lineTo(
       tipX - headLength * Math.cos(angle - Math.PI / 6),
-      tipY - headLength * Math.sin(angle - Math.PI / 6),
+      tipY - headLength * Math.sin(angle - Math.PI / 6)
     );
     ctx.lineTo(
       tipX - headLength * Math.cos(angle + Math.PI / 6),
-      tipY - headLength * Math.sin(angle + Math.PI / 6),
+      tipY - headLength * Math.sin(angle + Math.PI / 6)
     );
     ctx.closePath();
     ctx.fillStyle = "#66CCFF";
@@ -159,10 +159,19 @@ function drawEdge(edge) {
 function redraw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   edges.forEach(drawEdge);
-  vertices.forEach(drawVertex);
+  vertices.forEach(drawVertex)
+  actualizarPlaceholderGrafo(); // 🔥 NUEVO
 }
 
-/* ------------------ RESIZE CORRECTO ------------------ */
+function actualizarPlaceholderGrafo() {
+  const texto = document.getElementById("textoGrafoVacio");
+  if (!texto) return;
+
+  texto.style.display = vertices.length === 0 ? "block" : "none";
+}
+
+/* ------------------ RESIZE ------------------ */
+
 function resizeCanvas() {
   const rect = canvas.getBoundingClientRect();
   canvas.width = rect.width;
@@ -172,9 +181,10 @@ function resizeCanvas() {
 
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
+
 /* ------------------ EVENTOS ------------------ */
 
-// Crear vértice
+// Crear vértice con nombre
 canvas.addEventListener("dblclick", function (e) {
   const rect = canvas.getBoundingClientRect();
   const x = e.clientX - rect.left;
@@ -186,7 +196,13 @@ canvas.addEventListener("dblclick", function (e) {
     if (Math.sqrt(dx * dx + dy * dy) <= vertex.radius) return;
   }
 
-  vertices.push(new Vertex(x, y));
+  let nombre = prompt("Ingrese el nombre del vértice:");
+  if (nombre === null) return;
+
+  nombre = nombre.trim();
+  if (nombre === "") nombre = null;
+
+  vertices.push(new Vertex(x, y, nombre));
   redraw();
 });
 
@@ -211,7 +227,6 @@ canvas.addEventListener("click", function (e) {
         let directed = respuesta && respuesta.toLowerCase() === "si";
 
         let weight = prompt("Ingrese el peso:");
-
         if (weight !== null) {
           edges.push(new Edge(selectedVertex, vertex, weight, directed));
         }
@@ -281,22 +296,139 @@ function mostrarMatriz() {
   }
 
   const matriz = generarMatrizAdyacencia();
+  const n = matriz.length;
+
+  let sumaColumnas = Array(n).fill(0);
 
   let html = "<table><tr><th></th>";
-  vertices.forEach((v) => (html += `<th>${v.id}</th>`));
-  html += "</tr>";
+  vertices.forEach((v) => (html += `<th>${v.label}</th>`));
+  html += "<th>Σ fila</th></tr>";
 
   matriz.forEach((fila, i) => {
-    html += `<tr><th>${i}</th>`;
-    fila.forEach((valor) => (html += `<td>${valor}</td>`));
+    let sumaFila = 0;
+    html += `<tr><th>${vertices[i].label}</th>`;
+
+    fila.forEach((valor, j) => {
+      html += `<td>${valor}</td>`;
+      sumaFila += valor;
+      sumaColumnas[j] += valor;
+    });
+
+    html += `<td style="font-weight:bold;color:#22c55e">${sumaFila}</td>`;
     html += "</tr>";
   });
+
+  html += `<tr><th style="color:#f59e0b">Σ col</th>`;
+
+  let totalGeneral = 0;
+  sumaColumnas.forEach((suma) => {
+    html += `<td style="font-weight:bold;color:#f59e0b">${suma}</td>`;
+    totalGeneral += suma;
+  });
+
+  html += `<td style="font-weight:bold;color:#ef4444">${totalGeneral}</td>`;
+  html += "</tr>";
 
   html += "</table>";
   container.innerHTML = html;
 }
 
 document.getElementById("btnMatriz").addEventListener("click", mostrarMatriz);
+
+/* ================= EXPORTAR ================= */
+
+function exportarGrafo() {
+  if (vertices.length === 0) {
+    alert("No hay grafo para exportar");
+    return;
+  }
+
+  const nombreInput = document.getElementById("nombreArchivo");
+  let nombre = nombreInput.value.trim();
+  if (!nombre) nombre = "grafo";
+
+  const data = {
+    vertices: vertices.map((v) => ({
+      id: v.id,
+      label: v.label,
+      x: v.x,
+      y: v.y,
+    })),
+    edges: edges.map((e) => ({
+      from: e.from.id,
+      to: e.to.id,
+      weight: e.weight,
+      directed: e.directed,
+    })),
+  };
+
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = nombre + ".json";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+document
+  .getElementById("btnExportar")
+  .addEventListener("click", exportarGrafo);
+
+/* ================= IMPORTAR ================= */
+
+function importarGrafo(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    try {
+      const data = JSON.parse(e.target.result);
+
+      limpiarGrafo();
+
+      data.vertices.forEach((v) => {
+        const nuevo = new Vertex(v.x, v.y, v.label);
+        nuevo.id = v.id;
+        vertices.push(nuevo);
+      });
+
+      vertexCounter =
+        vertices.length > 0
+          ? Math.max(...vertices.map((v) => v.id)) + 1
+          : 0;
+
+      data.edges.forEach((e) => {
+        const from = vertices.find((v) => v.id === e.from);
+        const to = vertices.find((v) => v.id === e.to);
+
+        if (from && to) {
+          edges.push(new Edge(from, to, e.weight, e.directed));
+        }
+      });
+
+      redraw();
+    } catch (err) {
+      alert("Archivo JSON inválido");
+      console.error(err);
+    }
+  };
+
+  reader.readAsText(file);
+}
+
+document.getElementById("btnImportar").addEventListener("click", () => {
+  document.getElementById("inputImportar").click();
+});
+
+document
+  .getElementById("inputImportar")
+  .addEventListener("change", importarGrafo);
 
 /* ================= HELP ================= */
 
@@ -309,23 +441,26 @@ cerrarHelp.addEventListener("click", () => modalHelp.classList.add("oculto"));
 window.addEventListener("click", (e) => {
   if (e.target === modalHelp) modalHelp.classList.add("oculto");
 });
-/* ================= LIMPIAR GRAFO ================= */
+
+/* ================= LIMPIAR ================= */
 
 function limpiarGrafo() {
-  // Vaciar estructuras
   vertices = [];
   edges = [];
   selectedVertex = null;
   draggingVertex = null;
   vertexCounter = 0;
 
-  // Limpiar canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Limpiar matriz
   const container = document.getElementById("matrizContainer");
-  container.innerHTML = "<p style='opacity:0.6'>La matriz aparecerá aquí</p>";
+  container.innerHTML =
+    "<p style='opacity:0.6'>La matriz aparecerá aquí</p>";
+    actualizarPlaceholderGrafo();
 }
 
-// Evento botón
-document.getElementById("btnLimpiar").addEventListener("click", limpiarGrafo);
+document
+  .getElementById("btnLimpiar")
+  .addEventListener("click", limpiarGrafo);
+
+  actualizarPlaceholderGrafo();
