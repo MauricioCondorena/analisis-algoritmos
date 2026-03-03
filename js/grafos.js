@@ -299,35 +299,61 @@ function mostrarMatriz() {
   const n = matriz.length;
 
   let sumaColumnas = Array(n).fill(0);
+  let conteoColumnas = Array(n).fill(0);
 
   let html = "<table><tr><th></th>";
-  vertices.forEach((v) => (html += `<th>${v.label}</th>`));
-  html += "<th>Σ fila</th></tr>";
 
+  // Encabezado superior con nombres
+  vertices.forEach((v) => {
+    html += `<th>${v.label}</th>`;
+  });
+
+  html += "<th>Σ fila</th><th>Conteo</th></tr>";
+
+  // Filas
   matriz.forEach((fila, i) => {
     let sumaFila = 0;
+    let conteoFila = 0;
+
     html += `<tr><th>${vertices[i].label}</th>`;
 
     fila.forEach((valor, j) => {
       html += `<td>${valor}</td>`;
+
       sumaFila += valor;
       sumaColumnas[j] += valor;
+
+      if (valor !== 0) {
+        conteoFila++;
+        conteoColumnas[j]++;
+      }
     });
 
-    html += `<td style="font-weight:bold;color:#22c55e">${sumaFila}</td>`;
+    html += `<td style="color:#22c55e;font-weight:bold">${sumaFila}</td>`;
+    html += `<td style="color:#38bdf8;font-weight:bold">${conteoFila}</td>`;
     html += "</tr>";
   });
 
+  // Fila suma columnas
   html += `<tr><th style="color:#f59e0b">Σ col</th>`;
-
   let totalGeneral = 0;
+
   sumaColumnas.forEach((suma) => {
-    html += `<td style="font-weight:bold;color:#f59e0b">${suma}</td>`;
+    html += `<td style="color:#f59e0b;font-weight:bold">${suma}</td>`;
     totalGeneral += suma;
   });
 
-  html += `<td style="font-weight:bold;color:#ef4444">${totalGeneral}</td>`;
-  html += "</tr>";
+  html += `<td style="color:#ef4444;font-weight:bold">${totalGeneral}</td>`;
+  html += "<td></td></tr>";
+
+  // Fila conteo columnas
+  html += `<tr><th style="color:#38bdf8">Conteo</th>`;
+
+  conteoColumnas.forEach((cantidad) => {
+    html += `<td style="color:#38bdf8;font-weight:bold">${cantidad}</td>`;
+  });
+
+  html += "<td></td><td></td></tr>";
 
   html += "</table>";
   container.innerHTML = html;
