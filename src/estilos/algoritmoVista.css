@@ -1,0 +1,257 @@
+.algoritmos {
+  padding: 10px 0 0;
+  color: #0b1220;
+}
+
+/* Encabezado */
+.encabezado {
+  margin: 10px 0 18px;
+  text-align: left;
+}
+
+.titulo {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(0, 0, 255, 0.39);
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
+}
+
+.titulo::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 60%;
+  height: 4px;
+  border-radius: 999px;
+  background: #f5b400;
+}
+
+.intro {
+  margin: 10px 0 0;
+  color: #44506a;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Secciones planas */
+.bloque {
+  padding: 6px 0;
+}
+
+.subtitulo {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 10px;
+  background: rgba(245, 180, 0, 0.18);
+  border: 1px solid rgba(245, 180, 0, 0.35);
+  font-weight: 900;
+  color: #111;
+  font-size: 13px;
+}
+
+.texto {
+  margin: 0 0 10px;
+  color: #22324d;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.nota {
+  margin: 10px 0 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(245, 180, 0, 0.14);
+  border: 1px solid rgba(245, 180, 0, 0.28);
+  color: #22324d;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.separador {
+  border: 0;
+  height: 1px;
+  background: rgba(15, 23, 42, 0.12);
+  margin: 14px 0;
+}
+
+.lista {
+  margin: 0;
+  padding-left: 18px;
+  color: #22324d;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.lista li {
+  margin: 10px 0;
+}
+
+.ejemplos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 10px 0 0;
+}
+
+.ejemplo {
+  border-radius: 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #ffffff;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 6px 10px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+
+.tag-mal {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #7f1d1d;
+}
+
+.tag-bien {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  color: #14532d;
+}
+
+.ejemplo pre {
+  margin: 0;
+  border-radius: 10px;
+  background: #0b1220;
+  color: #e5e7eb;
+  padding: 12px;
+  overflow: auto;
+}
+
+.dos-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.mini {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 900;
+  color: #0b1220;
+}
+
+.lista-ordenada {
+  margin: 0;
+  padding-left: 18px;
+  color: #22324d;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.codigo {
+  margin: 0;
+  padding: 14px;
+  border-radius: 12px;
+  background: #0b1220;
+  color: #e5e7eb;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow: auto;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tip {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: #667085;
+}
+
+/* Fuente académica */
+.fuente {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.portada {
+  width: 140px;
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+}
+
+.apa {
+  margin: 0;
+  padding: 12px 14px;
+  background: rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 12px;
+  color: #22324d;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.nota-suave {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: #667085;
+}
+
+/* Video responsive */
+.video {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+  background: #000;
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+}
+
+.video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 760px) {
+  .ejemplos {
+    grid-template-columns: 1fr;
+  }
+  .dos-col {
+    grid-template-columns: 1fr;
+  }
+  .fuente {
+    grid-template-columns: 1fr;
+  }
+  .portada {
+    width: min(220px, 70%);
+  }
+}

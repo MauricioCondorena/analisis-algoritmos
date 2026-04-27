@@ -1,0 +1,580 @@
+.matriz {
+  width: 100%;
+  padding: 10px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.titulo {
+  margin: 0 0 14px;
+  font-size: 28px;
+  font-weight: 900;
+  color: #14213d;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.acciones,
+.panel-controles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.acciones {
+  margin-bottom: 20px;
+}
+
+.btn,
+.btn-sec,
+.select-modo,
+.panel-controles input {
+  height: 42px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn,
+.btn-sec {
+  padding: 0 16px;
+  cursor: pointer;
+}
+
+.btn {
+  background: #f4b400;
+  color: #14213d;
+  border: 1px solid #e0a800;
+  box-shadow: 0 8px 18px rgba(244, 180, 0, 0.2);
+}
+
+.btn:hover {
+  background: #e2a600;
+  transform: translateY(-1px);
+}
+
+.btn-sec {
+  background: #ffffff;
+  color: #22304f;
+  border: 1px solid #c8d3ea;
+}
+
+.btn-sec:hover {
+  background: #f5f8ff;
+  border-color: #afbddb;
+  transform: translateY(-1px);
+}
+
+.panel-controles input,
+.select-modo {
+  padding: 0 12px;
+  border: 1px solid #c8d3ea;
+  background: #ffffff;
+  color: #22304f;
+  outline: none;
+}
+
+.panel-controles input:focus,
+.select-modo:focus {
+  border-color: #7c9cff;
+  box-shadow: 0 0 0 4px rgba(124, 156, 255, 0.15);
+}
+
+/* =========================
+   LAYOUT EDITOR JOHNSON
+========================= */
+.editor-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(300px, 0.9fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.editor-main {
+  min-width: 0;
+}
+
+.editor-side {
+  min-width: 0;
+}
+
+/* =========================
+   LIENZO
+========================= */
+.lienzo {
+  width: 100%;
+  height: 390px;
+  margin-bottom: 24px;
+  border: 2px dashed rgba(212, 160, 23, 0.6);
+  border-radius: 18px;
+  background: radial-gradient(circle at 20% 20%, #1e293b, #0f172a);
+  box-shadow:
+    inset 0 0 40px rgba(0, 0, 0, 0.6),
+    0 12px 30px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+.lienzo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* =========================
+   PANEL LATERAL
+========================= */
+.editor-card {
+  background: #ffffff;
+  border: 1px solid #dde6f5;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.07);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.editor-card-node {
+  border-color: rgba(59, 130, 246, 0.28);
+  box-shadow:
+    0 12px 28px rgba(15, 23, 42, 0.07),
+    0 0 0 3px rgba(59, 130, 246, 0.08);
+}
+
+.editor-card-edge {
+  border-color: rgba(244, 180, 0, 0.32);
+  box-shadow:
+    0 12px 28px rgba(15, 23, 42, 0.07),
+    0 0 0 3px rgba(244, 180, 0, 0.1);
+}
+
+.editor-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.editor-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: #dbe8ff;
+  color: #21428f;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.editor-badge-node {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.editor-badge-edge {
+  background: #fff4d8;
+  color: #8a6500;
+}
+
+.editor-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: #162544;
+}
+
+.editor-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.editor-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #f8fbff;
+  border: 1px solid #dce5f3;
+  color: #2f3b59;
+}
+
+.editor-card-node .editor-item {
+  background: #f4f8ff;
+  border-color: #d7e6ff;
+}
+
+.editor-card-edge .editor-item {
+  background: #fffaf0;
+  border-color: #f5df9f;
+}
+
+.editor-item span {
+  color: #61708f;
+  font-weight: 700;
+}
+
+.editor-item strong {
+  color: #162544;
+  text-align: right;
+}
+
+.editor-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.editor-empty {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #54627f;
+  line-height: 1.6;
+}
+
+.editor-empty p {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #f8fbff;
+  border: 1px solid #dce5f3;
+}
+
+.btn-danger {
+  height: 42px;
+  border-radius: 12px;
+  padding: 0 16px;
+  border: 1px solid #e03b3b;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+/* =========================
+   RESULTADO
+========================= */
+.resultado-card {
+  position: relative;
+  margin-top: 6px;
+  padding: 22px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  border: 1px solid #dde6f5;
+  border-radius: 18px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.07);
+  overflow: hidden;
+}
+
+.resultado-card::before {
+  content: "Resultado";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  margin-bottom: 18px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: #dbe8ff;
+  color: #21428f;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
+
+.resultado-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(244, 180, 0, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.resultado-card h3 {
+  margin: 0 0 14px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #162544;
+  position: relative;
+  z-index: 1;
+}
+
+.resultado-card h3:not(:first-child) {
+  margin-top: 22px;
+}
+
+.camino {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: #fff2c7;
+  border: 1px solid rgba(244, 180, 0, 0.35);
+  color: #14213d;
+  font-size: 22px;
+  font-weight: 900;
+  position: relative;
+  z-index: 1;
+}
+
+.resultado-card ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.resultado-card li {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #f8fbff;
+  border: 1px solid #dce5f3;
+  color: #2f3b59;
+  font-size: 16px;
+  line-height: 1.5;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
+}
+
+.resultado-card li b {
+  color: #162544;
+}
+
+/* =========================
+   MODAL UNIFICADO
+========================= */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 23, 48, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 999;
+  backdrop-filter: blur(6px);
+}
+
+.modal {
+  width: 100%;
+  max-width: 780px;
+  background: #ffffff;
+  border: 1px solid #d9e3f3;
+  border-radius: 24px;
+  box-shadow: 0 30px 70px rgba(15, 23, 42, 0.18);
+  overflow: hidden;
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 22px 10px;
+  border-bottom: 1px solid #e8eef8;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: #162544;
+}
+
+.modal-x {
+  border: none;
+  background: transparent;
+  color: #6e7c99;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+
+.modal-x:hover {
+  color: #22304f;
+}
+
+.modal-body {
+  padding: 18px 22px 14px;
+}
+
+.modal-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #22304f;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.modal-input {
+  width: 100%;
+  height: 56px;
+  border-radius: 16px;
+  border: 1px solid #d4deef;
+  background: #f8fbff;
+  color: #162544;
+  padding: 0 18px;
+  outline: none;
+  margin-bottom: 12px;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.modal-input::placeholder {
+  color: #8a94aa;
+}
+
+.modal-input:focus {
+  border-color: #7c9cff;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(124, 156, 255, 0.16);
+}
+
+.modal-hint {
+  margin: 0;
+  font-size: 13px;
+  color: #66738f;
+  line-height: 1.55;
+}
+
+.modal-error {
+  margin-top: 10px;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 18px 22px 20px;
+  border-top: 1px solid #e8eef8;
+}
+
+/* =========================
+   TOAST
+========================= */
+.toast {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  background: #1f2f4d;
+  color: #ffffff;
+  padding: 13px 18px;
+  border-radius: 14px;
+  font-weight: 700;
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.18);
+  z-index: 1000;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 1100px) {
+  .editor-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .titulo {
+    font-size: 24px;
+  }
+
+  .btn,
+  .btn-sec,
+  .select-modo,
+  .panel-controles input {
+    width: 100%;
+  }
+
+  .lienzo {
+    height: 320px;
+  }
+
+  .camino {
+    width: 100%;
+    font-size: 18px;
+  }
+
+  .resultado-card li {
+    font-size: 15px;
+  }
+
+  .modal {
+    max-width: 100%;
+  }
+
+  .modal-title {
+    font-size: 21px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions .btn,
+  .modal-actions .btn-sec {
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .editor-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .editor-item strong {
+    text-align: left;
+  }
+}
